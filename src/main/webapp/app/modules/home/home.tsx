@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { Row, Col, Alert } from 'reactstrap';
 
 import { IRootState } from 'app/shared/reducers';
+import Graphics from './graphicScreen'
 
 export type IHomeProp = StateProps;
 
@@ -15,7 +16,7 @@ export const Home = (props: IHomeProp) => {
 
   return (
     <Row>
-      <Col md="9">
+      <Col md={account && account.login ? "12" : "9"}>
         <h2>
           <Translate contentKey="home.title">Welcome, Java Hipster!</Translate>
         </h2>
@@ -23,13 +24,7 @@ export const Home = (props: IHomeProp) => {
           <Translate contentKey="home.subtitle">This is your homepage</Translate>
         </p>
         {account && account.login ? (
-          <div>
-            <Alert color="success">
-              <Translate contentKey="home.logged.message" interpolate={{ username: account.login }}>
-                You are logged in as user {account.login}.
-              </Translate>
-            </Alert>
-          </div>
+          <Graphics />
         ) : (
           <div>
             <Alert color="warning">
@@ -52,6 +47,7 @@ export const Home = (props: IHomeProp) => {
             </Alert>
           </div>
         )}
+        <br />
         <p>
           <Translate contentKey="home.question">If you have any question on JHipster:</Translate>
         </p>
@@ -92,9 +88,11 @@ export const Home = (props: IHomeProp) => {
           !
         </p>
       </Col>
-      <Col md="3" className="pad">
-        <span className="hipster rounded" />
-      </Col>
+      { !account.login && (
+        <Col md="3" className="pad">
+          <span className="hipster rounded" />
+        </Col>)
+      }
     </Row>
   );
 };
